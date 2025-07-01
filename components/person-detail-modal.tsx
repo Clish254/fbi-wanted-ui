@@ -1,12 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { useState } from "react";
+import Image from "next/image";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   AlertTriangle,
   ExternalLink,
@@ -20,79 +25,82 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react"
-import { ClientDate } from "./client-date"
+} from "lucide-react";
+import { ClientDate } from "./client-date";
 
 interface WantedPerson {
-  uid: string
-  title: string
-  description: string
+  uid: string;
+  title: string;
+  description: string;
   images: Array<{
-    thumb: string
-    original: string
-    large: string
-    caption: string | null
-  }>
-  warning_message: string | null
-  reward_text: string | null
-  caution: string | null
-  details: string | null
-  field_offices: string[]
-  subjects: string[]
-  publication: string
-  url: string
-  poster_classification: string
-  hair?: string
-  eyes?: string
-  race?: string
-  sex?: string
-  age_min?: number
-  age_max?: number
-  height_min?: number
-  height_max?: number
-  weight_min?: number
-  weight_max?: number
-  scars_and_marks?: string
-  aliases?: string[]
-  occupations?: string[]
-  nationality?: string
-  place_of_birth?: string
-  dates_of_birth_used?: string[]
-  additional_information?: string
+    thumb: string;
+    original: string;
+    large: string;
+    caption: string | null;
+  }>;
+  warning_message: string | null;
+  reward_text: string | null;
+  caution: string | null;
+  details: string | null;
+  field_offices: string[];
+  subjects: string[];
+  publication: string;
+  url: string;
+  poster_classification: string;
+  hair?: string;
+  eyes?: string;
+  race?: string;
+  sex?: string;
+  age_min?: number;
+  age_max?: number;
+  height_min?: number;
+  height_max?: number;
+  weight_min?: number;
+  weight_max?: number;
+  scars_and_marks?: string;
+  aliases?: string[];
+  occupations?: string[];
+  nationality?: string;
+  place_of_birth?: string;
+  dates_of_birth_used?: string[];
+  additional_information?: string;
   files?: Array<{
-    name: string
-    url: string
-  }>
+    name: string;
+    url: string;
+  }>;
 }
 
 interface PersonDetailModalProps {
-  person: WantedPerson
-  onClose: () => void
+  person: WantedPerson;
+  onClose: () => void;
 }
 
 export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const publicationDate = new Date(person.publication).toLocaleDateString()
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
     if (person.images && person.images.length > 1) {
-      setCurrentImageIndex((prev) => (prev + 1) % person.images.length)
+      setCurrentImageIndex((prev) => (prev + 1) % person.images.length);
     }
-  }
+  };
 
   const prevImage = () => {
     if (person.images && person.images.length > 1) {
-      setCurrentImageIndex((prev) => (prev - 1 + person.images.length) % person.images.length)
+      setCurrentImageIndex(
+        (prev) => (prev - 1 + person.images.length) % person.images.length,
+      );
     }
-  }
+  };
 
-  const currentImage = person.images?.[currentImageIndex]
+  const currentImage = person.images?.[currentImageIndex];
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden !bg-white dark:!bg-gray-900 border border-gray-200 dark:border-gray-700">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">{person.title}</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
+            {person.title}
+          </DialogTitle>
         </DialogHeader>
 
         <ScrollArea className="max-h-[calc(90vh-120px)]">
@@ -102,7 +110,10 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
               <div className="relative">
                 <div className="relative w-full h-64 rounded-lg overflow-hidden">
                   <Image
-                    src={currentImage?.original || "/placeholder.svg?height=300&width=400"}
+                    src={
+                      currentImage?.original ||
+                      "/placeholder.svg?height=300&width=400"
+                    }
                     alt={person.title}
                     fill
                     className="object-cover"
@@ -135,7 +146,9 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                       <button
                         key={index}
                         className={`w-2 h-2 rounded-full ${
-                          index === currentImageIndex ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"
+                          index === currentImageIndex
+                            ? "bg-blue-600"
+                            : "bg-gray-300 dark:bg-gray-600"
                         }`}
                         onClick={() => setCurrentImageIndex(index)}
                       />
@@ -150,13 +163,17 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
               {person.warning_message && (
                 <div className="flex items-start gap-2 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
                   <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
-                  <p className="text-red-800 dark:text-red-200 font-medium">{person.warning_message}</p>
+                  <p className="text-red-800 dark:text-red-200 font-medium">
+                    {person.warning_message}
+                  </p>
                 </div>
               )}
 
               {person.reward_text && (
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                  <p className="text-green-800 dark:text-green-200 font-medium">{person.reward_text}</p>
+                  <p className="text-green-800 dark:text-green-200 font-medium">
+                    {person.reward_text}
+                  </p>
                 </div>
               )}
 
@@ -179,37 +196,59 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {person.description && (
                   <div>
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Description</p>
-                    <p className="text-sm text-gray-900 dark:text-gray-100">{person.description}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Description
+                    </p>
+                    <p className="text-sm text-gray-900 dark:text-gray-100">
+                      {person.description}
+                    </p>
                   </div>
                 )}
                 {person.sex && (
                   <div>
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Sex</p>
-                    <p className="text-sm text-gray-900 dark:text-gray-100">{person.sex}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Sex
+                    </p>
+                    <p className="text-sm text-gray-900 dark:text-gray-100">
+                      {person.sex}
+                    </p>
                   </div>
                 )}
                 {person.race && (
                   <div>
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Race</p>
-                    <p className="text-sm text-gray-900 dark:text-gray-100">{person.race}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Race
+                    </p>
+                    <p className="text-sm text-gray-900 dark:text-gray-100">
+                      {person.race}
+                    </p>
                   </div>
                 )}
                 {person.nationality && (
                   <div>
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Nationality</p>
-                    <p className="text-sm text-gray-900 dark:text-gray-100">{person.nationality}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Nationality
+                    </p>
+                    <p className="text-sm text-gray-900 dark:text-gray-100">
+                      {person.nationality}
+                    </p>
                   </div>
                 )}
                 {person.place_of_birth && (
                   <div>
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Place of Birth</p>
-                    <p className="text-sm text-gray-900 dark:text-gray-100">{person.place_of_birth}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Place of Birth
+                    </p>
+                    <p className="text-sm text-gray-900 dark:text-gray-100">
+                      {person.place_of_birth}
+                    </p>
                   </div>
                 )}
                 {(person.age_min || person.age_max) && (
                   <div>
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Age</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Age
+                    </p>
                     <p className="text-sm text-gray-900 dark:text-gray-100">
                       {person.age_min && person.age_max
                         ? `${person.age_min} - ${person.age_max}`
@@ -239,8 +278,12 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                       <div className="flex items-center gap-2">
                         <Palette className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                         <div>
-                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Hair</p>
-                          <p className="text-sm text-gray-900 dark:text-gray-100">{person.hair}</p>
+                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                            Hair
+                          </p>
+                          <p className="text-sm text-gray-900 dark:text-gray-100">
+                            {person.hair}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -248,8 +291,12 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                       <div className="flex items-center gap-2">
                         <Eye className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                         <div>
-                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Eyes</p>
-                          <p className="text-sm text-gray-900 dark:text-gray-100">{person.eyes}</p>
+                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                            Eyes
+                          </p>
+                          <p className="text-sm text-gray-900 dark:text-gray-100">
+                            {person.eyes}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -257,7 +304,9 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                       <div className="flex items-center gap-2">
                         <Ruler className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                         <div>
-                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Height</p>
+                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                            Height
+                          </p>
                           <p className="text-sm text-gray-900 dark:text-gray-100">
                             {person.height_min && person.height_max
                               ? `${person.height_min}" - ${person.height_max}"`
@@ -270,7 +319,9 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                       <div className="flex items-center gap-2">
                         <Weight className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                         <div>
-                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Weight</p>
+                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                            Weight
+                          </p>
                           <p className="text-sm text-gray-900 dark:text-gray-100">
                             {person.weight_min && person.weight_max
                               ? `${person.weight_min} - ${person.weight_max} lbs`
@@ -285,18 +336,29 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
             )}
 
             {/* Additional Details */}
-            {(person.aliases || person.occupations || person.scars_and_marks || person.dates_of_birth_used) && (
+            {(person.aliases ||
+              person.occupations ||
+              person.scars_and_marks ||
+              person.dates_of_birth_used) && (
               <>
                 <Separator className="bg-gray-200 dark:bg-gray-700" />
                 <div>
-                  <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Additional Details</h3>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
+                    Additional Details
+                  </h3>
                   <div className="space-y-3">
                     {person.aliases && person.aliases.length > 0 && (
                       <div>
-                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Aliases</p>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                          Aliases
+                        </p>
                         <div className="flex flex-wrap gap-1">
                           {person.aliases.map((alias, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
+                            <Badge
+                              key={index}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {alias}
                             </Badge>
                           ))}
@@ -305,24 +367,35 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                     )}
                     {person.occupations && person.occupations.length > 0 && (
                       <div>
-                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Occupations</p>
-                        <p className="text-sm text-gray-900 dark:text-gray-100">{person.occupations.join(", ")}</p>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                          Occupations
+                        </p>
+                        <p className="text-sm text-gray-900 dark:text-gray-100">
+                          {person.occupations.join(", ")}
+                        </p>
                       </div>
                     )}
                     {person.scars_and_marks && (
                       <div>
-                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Scars and Marks</p>
-                        <p className="text-sm text-gray-900 dark:text-gray-100">{person.scars_and_marks}</p>
-                      </div>
-                    )}
-                    {person.dates_of_birth_used && person.dates_of_birth_used.length > 0 && (
-                      <div>
-                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Dates of Birth Used</p>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                          Scars and Marks
+                        </p>
                         <p className="text-sm text-gray-900 dark:text-gray-100">
-                          {person.dates_of_birth_used.join(", ")}
+                          {person.scars_and_marks}
                         </p>
                       </div>
                     )}
+                    {person.dates_of_birth_used &&
+                      person.dates_of_birth_used.length > 0 && (
+                        <div>
+                          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                            Dates of Birth Used
+                          </p>
+                          <p className="text-sm text-gray-900 dark:text-gray-100">
+                            {person.dates_of_birth_used.join(", ")}
+                          </p>
+                        </div>
+                      )}
                   </div>
                 </div>
               </>
@@ -346,7 +419,9 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                   {person.additional_information && (
                     <div
                       className="text-sm prose prose-sm dark:prose-invert max-w-none text-gray-900 dark:text-gray-100"
-                      dangerouslySetInnerHTML={{ __html: person.additional_information }}
+                      dangerouslySetInnerHTML={{
+                        __html: person.additional_information,
+                      }}
                     />
                   )}
                 </div>
@@ -358,10 +433,16 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {person.subjects && person.subjects.length > 0 && (
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Categories</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                    Categories
+                  </p>
                   <div className="flex flex-wrap gap-1">
                     {person.subjects.map((subject, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs bg-secondary text-secondary-foreground">
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="text-xs bg-secondary text-secondary-foreground"
+                      >
                         {subject}
                       </Badge>
                     ))}
@@ -391,10 +472,17 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
               <>
                 <Separator className="bg-gray-200 dark:bg-gray-700" />
                 <div>
-                  <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Additional Information</h3>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
+                    Additional Information
+                  </h3>
                   <div className="space-y-2">
                     {person.files.map((file, index) => (
-                      <Button key={index} variant="outline" asChild className="w-full justify-start bg-transparent">
+                      <Button
+                        key={index}
+                        variant="outline"
+                        asChild
+                        className="w-full justify-start bg-transparent"
+                      >
                         <a
                           href={file.url}
                           target="_blank"
@@ -420,7 +508,12 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
                 Published: <ClientDate date={person.publication} />
               </div>
               <Button asChild>
-                <a href={person.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <a
+                  href={person.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
                   View on FBI.gov
                   <ExternalLink className="h-4 w-4" />
                 </a>
@@ -430,5 +523,5 @@ export function PersonDetailModal({ person, onClose }: PersonDetailModalProps) {
         </ScrollArea>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

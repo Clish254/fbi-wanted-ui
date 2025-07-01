@@ -1,32 +1,34 @@
-import { Suspense } from "react"
-import { WantedPersonsList } from "@/components/wanted-persons-list"
-import { SearchFilters } from "@/components/search-filters"
-import { ModeToggle } from "@/components/mode-toggle"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import { WantedPersonsList } from "@/components/wanted-persons-list";
+import { SearchFilters } from "@/components/search-filters";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SearchParams {
-  page?: string
-  field_offices?: string
-  poster_classification?: string
-  search?: string
-  hair?: string
-  eyes?: string
-  race?: string
+  page?: string;
+  field_offices?: string;
+  poster_classification?: string;
+  search?: string;
+  hair?: string;
+  eyes?: string;
+  race?: string;
 }
 
-export default async function HomePage(
-  props: {
-    searchParams: Promise<SearchParams>
-  }
-) {
+export default async function HomePage(props: {
+  searchParams: Promise<SearchParams>;
+}) {
   const searchParams = await props.searchParams;
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">FBI Most Wanted</h1>
-            <p className="text-muted-foreground">Search and browse the FBI's most wanted individuals</p>
+            <h1 className="text-4xl font-bold text-foreground mb-2">
+              FBI Most Wanted
+            </h1>
+            <p className="text-muted-foreground">
+              Search and browse the FBI&apos;s most wanted individuals
+            </p>
           </div>
           <ModeToggle />
         </div>
@@ -38,7 +40,7 @@ export default async function HomePage(
         </Suspense>
       </div>
     </div>
-  )
+  );
 }
 
 function LoadingSkeleton() {
@@ -52,5 +54,5 @@ function LoadingSkeleton() {
         </div>
       ))}
     </div>
-  )
+  );
 }
