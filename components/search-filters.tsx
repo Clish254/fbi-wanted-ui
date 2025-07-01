@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent } from "@/components/ui/card"
-import { Search, X } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { Search, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const FIELD_OFFICES = [
   "albuquerque",
@@ -62,7 +68,7 @@ const FIELD_OFFICES = [
   "stlouis",
   "tampa",
   "washington",
-]
+];
 
 const POSTER_CLASSIFICATIONS = [
   "ten",
@@ -79,77 +85,98 @@ const POSTER_CLASSIFICATIONS = [
   "terrorism",
   "violent-crime",
   "white-collar-crime",
-]
+];
 
-const HAIR_COLORS = ["black", "brown", "blonde", "red", "gray", "white", "bald"]
-const EYE_COLORS = ["brown", "blue", "green", "hazel", "gray", "black"]
-const RACES = ["white", "black", "hispanic", "asian", "native american", "unknown"]
+const HAIR_COLORS = [
+  "black",
+  "brown",
+  "blonde",
+  "red",
+  "gray",
+  "white",
+  "bald",
+];
+const EYE_COLORS = ["brown", "blue", "green", "hazel", "gray", "black"];
+const RACES = [
+  "white",
+  "black",
+  "hispanic",
+  "asian",
+  "native american",
+  "unknown",
+];
 
 export function SearchFilters() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const [fieldOffice, setFieldOffice] = useState(searchParams.get("field_offices") || "all")
-  const [classification, setClassification] = useState(searchParams.get("poster_classification") || "all")
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "")
-  const [hairColor, setHairColor] = useState(searchParams.get("hair") || "all")
-  const [eyeColor, setEyeColor] = useState(searchParams.get("eyes") || "all")
-  const [race, setRace] = useState(searchParams.get("race") || "all")
+  const [fieldOffice, setFieldOffice] = useState(
+    searchParams.get("field_offices") || "all",
+  );
+  const [classification, setClassification] = useState(
+    searchParams.get("poster_classification") || "all",
+  );
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("search") || "",
+  );
+  const [hairColor, setHairColor] = useState(searchParams.get("hair") || "all");
+  const [eyeColor, setEyeColor] = useState(searchParams.get("eyes") || "all");
+  const [race, setRace] = useState(searchParams.get("race") || "all");
 
   const updateFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams.toString());
 
     // Remove page when filters change
-    params.delete("page")
+    params.delete("page");
 
     if (searchQuery.trim()) {
-      params.set("search", searchQuery.trim())
+      params.set("search", searchQuery.trim());
     } else {
-      params.delete("search")
+      params.delete("search");
     }
 
     if (fieldOffice !== "all") {
-      params.set("field_offices", fieldOffice)
+      params.set("field_offices", fieldOffice);
     } else {
-      params.delete("field_offices")
+      params.delete("field_offices");
     }
 
     if (classification !== "all") {
-      params.set("poster_classification", classification)
+      params.set("poster_classification", classification);
     } else {
-      params.delete("poster_classification")
+      params.delete("poster_classification");
     }
 
     if (hairColor !== "all") {
-      params.set("hair", hairColor)
+      params.set("hair", hairColor);
     } else {
-      params.delete("hair")
+      params.delete("hair");
     }
 
     if (eyeColor !== "all") {
-      params.set("eyes", eyeColor)
+      params.set("eyes", eyeColor);
     } else {
-      params.delete("eyes")
+      params.delete("eyes");
     }
 
     if (race !== "all") {
-      params.set("race", race)
+      params.set("race", race);
     } else {
-      params.delete("race")
+      params.delete("race");
     }
 
-    router.push(`/?${params.toString()}`)
-  }
+    router.push(`/?${params.toString()}`);
+  };
 
   const clearFilters = () => {
-    setFieldOffice("all")
-    setClassification("all")
-    setSearchQuery("")
-    setHairColor("all")
-    setEyeColor("all")
-    setRace("all")
-    router.push("/")
-  }
+    setFieldOffice("all");
+    setClassification("all");
+    setSearchQuery("");
+    setHairColor("all");
+    setEyeColor("all");
+    setRace("all");
+    router.push("/");
+  };
 
   const hasActiveFilters =
     fieldOffice !== "all" ||
@@ -157,7 +184,7 @@ export function SearchFilters() {
     searchQuery.trim() !== "" ||
     hairColor !== "all" ||
     eyeColor !== "all" ||
-    race !== "all"
+    race !== "all";
 
   return (
     <Card className="mb-8">
@@ -174,7 +201,9 @@ export function SearchFilters() {
         </div>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
-            <label className="text-sm font-medium mb-2 block">Field Office</label>
+            <label className="text-sm font-medium mb-2 block">
+              Field Office
+            </label>
             <Select value={fieldOffice} onValueChange={setFieldOffice}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="All field offices" />
@@ -202,7 +231,9 @@ export function SearchFilters() {
                   <SelectItem key={cat} value={cat}>
                     {cat
                       .split("-")
-                      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
+                      )
                       .join(" ")}
                   </SelectItem>
                 ))}
@@ -265,13 +296,20 @@ export function SearchFilters() {
         </div>
 
         <div className="flex gap-2 md:items-end md:pb-0 pb-0">
-          <Button onClick={updateFilters} className="flex items-center gap-2">
+          <Button
+            onClick={updateFilters}
+            className="flex items-center mt-2 gap-2 bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:text-white dark:hover:bg-blue-600"
+          >
             <Search className="h-4 w-4" />
             Apply Filters
           </Button>
 
           {hasActiveFilters && (
-            <Button variant="outline" onClick={clearFilters} className="flex items-center gap-2 bg-transparent">
+            <Button
+              variant="outline"
+              onClick={clearFilters}
+              className="flex items-center gap-2 bg-transparent"
+            >
               <X className="h-4 w-4" />
               Clear
             </Button>
@@ -279,5 +317,5 @@ export function SearchFilters() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
