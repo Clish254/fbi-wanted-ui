@@ -14,97 +14,43 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+const CATEGORIES = [
+  "Additional Violent Crimes",
+  "Seeking Information",
+  "Ten Most Wanted Fugitives",
+  "Case of the Week",
+  "Kidnappings and Missing Persons",
+  "Indian Country",
+  "Law Enforcement Assistance",
+  "Cyber's Most Wanted",
+  "Violent Crimes - Murders",
+  "Violent Crime - Murders",
+  "ViCAP Missing Persons",
+];
+
 const FIELD_OFFICES = [
-  "albuquerque",
-  "anchorage",
-  "atlanta",
-  "baltimore",
-  "birmingham",
-  "boston",
-  "buffalo",
-  "charlotte",
-  "chicago",
-  "cincinnati",
-  "cleveland",
-  "columbia",
-  "dallas",
-  "denver",
-  "detroit",
-  "elpaso",
-  "honolulu",
-  "houston",
-  "indianapolis",
-  "jackson",
-  "jacksonville",
-  "kansascity",
-  "knoxville",
-  "lasvegas",
-  "littlerock",
-  "losangeles",
-  "louisville",
-  "memphis",
   "miami",
-  "milwaukee",
-  "minneapolis",
-  "mobile",
-  "newhaven",
-  "neworleans",
-  "newyork",
-  "norfolk",
-  "oklahomacity",
-  "omaha",
-  "philadelphia",
+  "lasvegas",
+  "dallas",
+  "albuquerque",
   "phoenix",
-  "pittsburgh",
-  "portland",
-  "richmond",
-  "sacramento",
-  "saltlakecity",
-  "sanantonio",
-  "sandiego",
-  "sanfrancisco",
-  "seattle",
+  "neworleans",
+  "losangeles",
+  "atlanta",
   "springfield",
-  "stlouis",
-  "tampa",
-  "washington",
+  "philadelphia",
+  "newark",
+  "sanfrancisco",
+  "portland",
+  "indianapolis",
+  "chicago",
 ];
 
-const POSTER_CLASSIFICATIONS = [
-  "ten",
-  "cyber",
-  "counterintelligence",
-  "crimes-against-children",
-  "criminal-enterprise-investigations",
-  "domestic-terrorism",
-  "fugitives",
-  "human-trafficking",
-  "kidnappings-missing-persons",
-  "law-enforcement-assistance",
-  "seeking-info",
-  "terrorism",
-  "violent-crime",
-  "white-collar-crime",
-];
+const HAIR = ["black", "brown", "blond"];
 
-const HAIR_COLORS = [
-  "black",
-  "brown",
-  "blonde",
-  "red",
-  "gray",
-  "white",
-  "bald",
-];
-const EYE_COLORS = ["brown", "blue", "green", "hazel", "gray", "black"];
-const RACES = [
-  "white",
-  "black",
-  "hispanic",
-  "asian",
-  "native american",
-  "unknown",
-];
+const EYES = ["brown", "hazel", "black", "blue"];
+
+const RACE = ["black", "hispanic", "native", "white"];
 
 export function SearchFilters() {
   const router = useRouter();
@@ -113,8 +59,8 @@ export function SearchFilters() {
   const [fieldOffice, setFieldOffice] = useState(
     searchParams.get("field_offices") || "all",
   );
-  const [classification, setClassification] = useState(
-    searchParams.get("poster_classification") || "all",
+  const [category, setCategory] = useState(
+    searchParams.get("subject") || "all",
   );
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get("search") || "",
@@ -141,10 +87,10 @@ export function SearchFilters() {
       params.delete("field_offices");
     }
 
-    if (classification !== "all") {
-      params.set("poster_classification", classification);
+    if (category !== "all") {
+      params.set("subject", category);
     } else {
-      params.delete("poster_classification");
+      params.delete("subject");
     }
 
     if (hairColor !== "all") {
@@ -170,7 +116,7 @@ export function SearchFilters() {
 
   const clearFilters = () => {
     setFieldOffice("all");
-    setClassification("all");
+    setCategory("all");
     setSearchQuery("");
     setHairColor("all");
     setEyeColor("all");
@@ -180,7 +126,7 @@ export function SearchFilters() {
 
   const hasActiveFilters =
     fieldOffice !== "all" ||
-    classification !== "all" ||
+    category !== "all" ||
     searchQuery.trim() !== "" ||
     hairColor !== "all" ||
     eyeColor !== "all" ||
@@ -193,7 +139,7 @@ export function SearchFilters() {
           <label className="text-sm font-medium mb-2 block">Search</label>
           <Input
             type="text"
-            placeholder="Search by name, description, or keywords..."
+            placeholder="Search by name"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full"
@@ -221,13 +167,13 @@ export function SearchFilters() {
 
           <div className="flex-1">
             <label className="text-sm font-medium mb-2 block">Category</label>
-            <Select value={classification} onValueChange={setClassification}>
+            <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="All categories" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All categories</SelectItem>
-                {POSTER_CLASSIFICATIONS.map((cat) => (
+                {CATEGORIES.map((cat) => (
                   <SelectItem key={cat} value={cat}>
                     {cat
                       .split("-")
@@ -251,7 +197,7 @@ export function SearchFilters() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All hair colors</SelectItem>
-                {HAIR_COLORS.map((color) => (
+                {HAIR.map((color) => (
                   <SelectItem key={color} value={color}>
                     {color.charAt(0).toUpperCase() + color.slice(1)}
                   </SelectItem>
@@ -268,7 +214,7 @@ export function SearchFilters() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All eye colors</SelectItem>
-                {EYE_COLORS.map((color) => (
+                {EYES.map((color) => (
                   <SelectItem key={color} value={color}>
                     {color.charAt(0).toUpperCase() + color.slice(1)}
                   </SelectItem>
@@ -285,7 +231,7 @@ export function SearchFilters() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All races</SelectItem>
-                {RACES.map((r) => (
+                {RACE.map((r) => (
                   <SelectItem key={r} value={r}>
                     {r.charAt(0).toUpperCase() + r.slice(1)}
                   </SelectItem>

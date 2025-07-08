@@ -31,7 +31,7 @@ interface ApiResponse {
 interface SearchParams {
   page?: string;
   field_offices?: string;
-  poster_classification?: string;
+  subject?: string;
   search?: string;
   hair?: string;
   eyes?: string;
@@ -51,8 +51,8 @@ async function fetchWantedPersons(
     params.append("field_offices", searchParams.field_offices);
   }
 
-  if (searchParams.poster_classification) {
-    params.append("poster_classification", searchParams.poster_classification);
+  if (searchParams.subject) {
+    params.append("subject", searchParams.subject);
   }
 
   if (searchParams.search) {
@@ -72,6 +72,7 @@ async function fetchWantedPersons(
   }
 
   const url = `https://fbi-wanted-backend-production.up.railway.app/api/wanted${params.toString() ? `?${params.toString()}` : ""}`;
+  //const url = `http://localhost:3001/api/wanted${params.toString() ? `?${params.toString()}` : ""}`;
 
   try {
     const response = await fetch(url, {

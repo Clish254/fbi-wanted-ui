@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface SearchParams {
   page?: string;
   field_offices?: string;
-  poster_classification?: string;
+  subject?: string;
   search?: string;
   hair?: string;
   eyes?: string;
